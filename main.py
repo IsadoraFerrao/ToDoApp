@@ -2,23 +2,19 @@ import sqlite3
 conexao = sqlite3.connect('todo-db')
 cursor = conexao.cursor()
 
+cursor.execute('''CREATE TABLE if not exists CATEGORY (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR (50)
+);''')
 
 cursor.execute('''CREATE TABLE if not exists TODO (
-    id INT AUTO_INCREMENT NOT NULL,
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name VARCHAR (50) UNIQUE,
     date VARCHAR (10),
     status VARCHAR (10),
     category_id INT NOT NULL,
-        PRIMARY KEY (id)
-        FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );''')
-
-cursor.execute('''CREATE TABLE if not exists CATEGORY (
-    id INT AUTO_INCREMENT  NOT NULL,
-    name VARCHAR (50),
-        PRIMARY KEY (id)
-);''')
-
 
 print('-' * 30)
 print('-=-= TASKS =-=-')
@@ -72,7 +68,3 @@ while True:
     else:
         Opt = int(input('Invalid option! Try again: '))
         print('-' * 5)
-
-
-conexao.commit()
-conexao.close
